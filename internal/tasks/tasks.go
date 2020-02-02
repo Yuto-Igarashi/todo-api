@@ -36,8 +36,8 @@ func CreateTask(ctx *gin.Context) {
 		return
 	}
 	if task.Title == "" || task.Overview == "" || task.Status == "" {
+		log.Println("Create Tasks :Missing input")
 		return
-		//エラーを返すようにしたい
 	}
 	db.Create(&task)
 	fmt.Println(db)
@@ -54,6 +54,7 @@ func UpdateTasksById(ctx *gin.Context) {
 		return
 	}
 	if updateTask.Title == "" || updateTask.Overview == "" || updateTask.Status == "" {
+		log.Println("Update Tasks :Missing input")
 		return
 	}
 	db.Save(&updateTask)
