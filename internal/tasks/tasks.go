@@ -60,3 +60,14 @@ func UpdateTasksById(ctx *gin.Context) {
 	db.Save(&updateTask)
 	ctx.JSON(200, updateTask)
 }
+
+func DeleteTasksById(ctx *gin.Context) {
+	log.Println("DeleteTasksById start")
+	id := ctx.Param("id")
+	db := config.GormConnect()
+	task := api.Task{}
+	task.ID, _ = strconv.Atoi(id)
+	defer db.Close()
+	db.First(&task, id)
+	db.Delete(&task)
+}
