@@ -10,7 +10,7 @@ func GormConnect() *gorm.DB {
 	USER := "root"
 	PASS := ""
 	PROTOCOL := "tcp(127.0.0.1:3306)"
-	DBNAME := "togukun"
+	DBNAME := "todoapi"
 
 	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME
 	db, err := gorm.Open(DBMS, CONNECT)

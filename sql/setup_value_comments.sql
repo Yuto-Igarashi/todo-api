@@ -1,0 +1,1 @@
+INSERT INTO todoapi.comments (content,task_id) VALUES ('コメントです1',1);

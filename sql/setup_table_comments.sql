@@ -1,0 +1,6 @@
+CREATE TABLE comments (
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    content TEXT,
+    ceate_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    task_id INT
+);

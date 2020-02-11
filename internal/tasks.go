@@ -1,4 +1,4 @@
-package tasks
+package internal
 
 import (
 	"fmt"
@@ -15,7 +15,6 @@ func GetTasks(ctx *gin.Context) {
 	defer db.Close()
 	tasks := []api.Task{}
 	db.Find(&tasks)
-	fmt.Println(tasks)
 	ctx.JSON(200, tasks)
 }
 
@@ -23,8 +22,13 @@ func GetTasksById(ctx *gin.Context) {
 	id := ctx.Param("id")
 	db := config.GormConnect()
 	var task api.Task
-	db.First(&task, id)
-	ctx.JSON(200, task)
+	idInt, _ := strconv.Atoi(id)
+	task.Comments = GetComment(idInt)
+	err := db.First(&task, id).Error
+	notExistId(ctx, err, id)
+	if err == nil {
+		ctx.JSON(200, task)
+	}
 }
 
 func CreateTask(ctx *gin.Context) {
@@ -51,10 +55,16 @@ func UpdateTasksById(ctx *gin.Context) {
 	task.ID, _ = strconv.Atoi(id)
 	updateTask := task
 	if err := ctx.BindJSON(&updateTask); err != nil {
+		log.Println(err)
 		return
 	}
 	if updateTask.Title == "" || updateTask.Overview == "" || updateTask.Status == "" {
 		log.Println("Update Tasks :Missing input")
+		return
+	}
+	err := db.First(&task, id).Error
+	notExistId(ctx, err, id)
+	if err != nil {
 		return
 	}
 	db.Save(&updateTask)
@@ -70,4 +80,15 @@ func DeleteTasksById(ctx *gin.Context) {
 	defer db.Close()
 	db.First(&task, id)
 	db.Delete(&task)
+}
+
+//id がない時のエラー関数
+func notExistId(ctx *gin.Context, err interface{}, id string) {
+	if err != nil {
+		log.Printf("ID:[%s] does not exist", id)
+		log.Println(err)
+		ctx.JSON(200, gin.H{
+			"staus": "NotFound",
+		})
+	}
 }

@@ -1,0 +1,1 @@
+CREATE TABLE todoapi.tasks (id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,title VARCHAR(50),overview TEXT,status TEXT);
