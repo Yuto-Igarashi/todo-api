@@ -1,7 +1,6 @@
 package internal
 
 import (
-	"fmt"
 	"log"
 	"strconv"
 	"todo-api/api"
@@ -44,7 +43,7 @@ func CreateTask(ctx *gin.Context) {
 		return
 	}
 	db.Create(&task)
-	fmt.Println(db)
+	log.Println(db)
 	ctx.JSON(200, task)
 }
 

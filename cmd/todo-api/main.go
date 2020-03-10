@@ -15,6 +15,9 @@ func main() {
 		api.GET("/tasks/:id", internal.GetTasksById)
 		api.POST("/tasks/:id", internal.UpdateTasksById)
 		api.DELETE("/tasks/:id", internal.DeleteTasksById)
+
+		//コメント
+		api.POST("/comment/", internal.AddComment)
 	}
 	router.NoRoute(internal.NotFoundRoute)
 	router.Run(":8080")
